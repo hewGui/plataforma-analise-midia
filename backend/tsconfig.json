@@ -1,0 +1,26 @@
+// backend/tsconfig.json
+{
+  "compilerOptions": {
+    /* -------------------------------------- */
+    /* Configurações Básicas e de Layout      */
+    /* -------------------------------------- */
+    "target": "es2020",         // Gera código JS moderno (ES2020).
+    "module": "commonjs",       // O Node.js/Express tradicionalmente usa CommonJS.
+    "rootDir": "./src",         // Define a pasta de código-fonte TS.
+    "outDir": "./dist",         // Define a pasta de destino para o JS compilado.
+    "esModuleInterop": true,    // Permite usar 'import' em módulos CommonJS (como o Express).
+    "forceConsistentCasingInFileNames": true,
+    
+    /* -------------------------------------- */
+    /* Checagem de Tipos e Rigor              */
+    /* -------------------------------------- */
+    "strict": true,             // Ativa todas as regras rigorosas de tipagem (MUITO RECOMENDADO).
+    "skipLibCheck": true,       // Ignora a checagem de tipos em arquivos de bibliotecas.
+
+    /* -------------------------------------- */
+    /* Opções Removidas ou Simplificadas      */
+    /* -------------------------------------- */
+    // Removemos ou desativamos opções avançadas ('verbatimModuleSyntax', 'isolatedModules', 'moduleDetection', etc.)
+    // para focar nas necessidades do nosso backend Express.
+  }
+}
