@@ -1,16 +1,18 @@
 import express, {Request, Response} from 'express';
 import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
+import authRoutes from './routes/auth.routes';
 
 
 const prisma = new PrismaClient();
-
 const PORT = process.env.PORT || 3000;
 const app = express();
 
 
 //Middlewares (funções que rodam antes das rotas, servem por exemplo para verificar login, converter JSON,registrar log e etc)
 app.use(express.json()); //Habilita o Express a receber JSON no body
+app.use('/api/auth', authRoutes);
+
 
 app.get('/', async (req: Request, res: Response) => {
     try{
@@ -28,7 +30,7 @@ app.get('/', async (req: Request, res: Response) => {
             error: error instanceof Error ? error.message : "Erro desconhecido"
         });
     } finally{
-        
+
     }
 })
 
