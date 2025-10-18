@@ -1,4 +1,5 @@
- 
+ import { Request } from "express";
+
 export interface RegisterUserBody{
     name?: string;
     email: string;
@@ -12,4 +13,8 @@ export interface LoginBody{
 
 export interface JWTPayload{
     id: string;
+}
+
+export interface AuthenticatedRequest extends Request{
+    userId?: string;
 }

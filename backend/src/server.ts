@@ -1,38 +1,39 @@
-import express, {Request, Response} from 'express';
+import express, { Request, Response } from 'express';
+import cors from 'cors';
 import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 import authRoutes from './routes/auth.routes';
-
+import authMiddleware from './middlewares/auth.middleware';
+import { AuthenticatedRequest } from './types';
 
 const prisma = new PrismaClient();
-const PORT = process.env.PORT || 3000;
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 
 //Middlewares (funções que rodam antes das rotas, servem por exemplo para verificar login, converter JSON,registrar log e etc)
+app.use(cors());
 app.use(express.json()); //Habilita o Express a receber JSON no body
+
 app.use('/api/auth', authRoutes);
 
+app.get('/', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+        const databaseStatus = await prisma.user.count() >= 0
+            ? "✅ Conectado e funcional"
+            : "❌ Erro de conexão";
 
-app.get('/', async (req: Request, res: Response) => {
-    try{
-        const userCount = await prisma.user.count();
-
-        res.status(200).json({
-            message: 'API rodando! Pronta para o desenvolvimento.',
-            database_status: '✅ Conectado e funcional',
-            userCount: userCount
+        res.json({
+            status: 'API rodando',
+            database_status: databaseStatus,
+            message: `Bem vindo, usuário ID: ${req.userId}. Esta rota está protegida`,
+            port: PORT,
         });
-    }catch(error){
-        console.log("Erro ao conectar ao banco de dados: ", error);
-        res.status(500).json({
-            message: "API rodando, MAS HOUVE ERRO na conexão com o Banco de Dados.",
-            error: error instanceof Error ? error.message : "Erro desconhecido"
-        });
-    } finally{
 
-    }
-})
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao verificar o banco de dados.' });
+    } 
+});
 
 app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
