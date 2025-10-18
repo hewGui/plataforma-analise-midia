@@ -3,6 +3,7 @@ import cors from 'cors';
 import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 import authRoutes from './routes/auth.routes';
+import mediaRoutes from './routes/media.routes'
 import authMiddleware from './middlewares/auth.middleware';
 import { AuthenticatedRequest } from './types';
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.json()); //Habilita o Express a receber JSON no body
 
 app.use('/api/auth', authRoutes);
+app.use('/api/media', mediaRoutes);;
 
 app.get('/', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
     try {
