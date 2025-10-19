@@ -1,0 +1,38 @@
+# backend/auth-docs.yaml
+
+tags:
+  - name: Autenticação
+    description: Rotas de Registro e Login
+
+paths:
+  /auth/register:
+    post:
+      summary: Registra um novo usuário
+      tags:
+        - Autenticação
+      security: [] # Desabilita a segurança JWT para esta rota
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Guilherme Teste
+                email:
+                  type: string
+                  format: email
+                  example: guilherme@portfolio.com
+                password:
+                  type: string
+                  format: password
+                  example: SenhaSegura123
+      responses:
+        "201":
+          description: Usuário registrado com sucesso.
+        "400":
+          description: Dados incompletos (e.g., faltando email/senha).
+        "409":
+          description: E-mail já está em uso.

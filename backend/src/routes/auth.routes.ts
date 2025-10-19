@@ -9,12 +9,6 @@ import { sign, SignOptions } from "jsonwebtoken";
 const router = Router();
 const prisma = new PrismaClient();
 
-/**
- * Rota de Registro de Novo Usuário
- * Método: POST
- * Endpoint: /api/auth/register
- */
-
 router.post('/register', async (req: Request<{}, {}, RegisterUserBody>, res: Response) => {
 
     const { name, email, password } = req.body;

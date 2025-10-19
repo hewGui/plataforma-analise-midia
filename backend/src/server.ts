@@ -6,6 +6,8 @@ import authRoutes from './routes/auth.routes';
 import mediaRoutes from './routes/media.routes'
 import authMiddleware from './middlewares/auth.middleware';
 import { AuthenticatedRequest } from './types';
+import swaggerUI from 'swagger-ui-express';
+import swaggerSpec from './swagger';
 
 const prisma = new PrismaClient();
 const app = express();
@@ -17,7 +19,8 @@ app.use(cors());
 app.use(express.json()); //Habilita o Express a receber JSON no body
 
 app.use('/api/auth', authRoutes);
-app.use('/api/media', mediaRoutes);;
+app.use('/api/media', mediaRoutes);
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 app.get('/', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
     try {

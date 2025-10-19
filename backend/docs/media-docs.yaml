@@ -1,0 +1,93 @@
+# backend/media-docs.yaml
+
+tags:
+  - name: Mídia (CRUD)
+    description: Operações CRUD para mídias do usuário (Exigem JWT)
+
+paths:
+  /media:
+    get:
+      summary: Lista todas as mídias do usuário logado
+      tags:
+        - Mídia (CRUD)
+      responses:
+        "200":
+          description: Lista de mídias retornada com sucesso.
+        "401":
+          description: Não autorizado (Token ausente ou inválido).
+    post:
+      summary: Cria uma nova mídia
+      tags:
+        - Mídia (CRUD)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Análise do Vídeo Viral X
+                url:
+                  type: string
+                  example: https://tiktok.com/@usuario/post
+                platform:
+                  type: string
+                  example: TikTok
+      responses:
+        "201":
+          description: Mídia criada com sucesso.
+        "401":
+          description: Não autorizado.
+        "400":
+          description: Dados incompletos.
+
+  /media/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: ID da mídia
+    get:
+      summary: Busca uma mídia específica por ID (e verifica autorização)
+      tags:
+        - Mídia (CRUD)
+      responses:
+        "200":
+          description: Mídia encontrada.
+        "404":
+          description: Mídia não encontrada ou acesso negado.
+    put:
+      summary: Atualiza uma mídia específica (e verifica autorização)
+      tags:
+        - Mídia (CRUD)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                url:
+                  type: string
+                platform:
+                  type: string
+      responses:
+        "200":
+          description: Mídia atualizada com sucesso.
+        "404":
+          description: Mídia não encontrada ou acesso negado.
+    delete:
+      summary: Exclui uma mídia específica (e verifica autorização)
+      tags:
+        - Mídia (CRUD)
+      responses:
+        "204":
+          description: Mídia excluída com sucesso (sem conteúdo).
+        "404":
+          description: Mídia não encontrada ou acesso negado.
