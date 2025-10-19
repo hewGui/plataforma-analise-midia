@@ -18,3 +18,9 @@ export interface JWTPayload{
 export interface AuthenticatedRequest extends Request{
     userId?: string;
 }
+
+export interface CreateMediaBody{
+    title: string;
+    url: string;
+    platform: string;
+}

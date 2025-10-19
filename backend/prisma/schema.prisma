@@ -9,10 +9,37 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid()) 
-  email     String    @unique 
-  password  String 
-  name      String? 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  // CORREÇÃO: Usamos String com @default(cuid()) para gerar IDs únicos.
+  // Removemos @db.ObjectId e @map("_id").
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  // Define a relação: Um usuário pode ter muitas mídias
+  media     Media[] 
+
+  @@map("users") // Boa prática: Mapear para o nome da tabela no plural
+}
+
+model Media {
+  // CORREÇÃO: Usamos String com @default(cuid()) para gerar IDs únicos.
+  // Removemos @db.ObjectId e @map("_id").
+  id          String   @id @default(cuid())
+  title       String 
+  url         String
+  platform    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // RELACIONAMENTO: authorId deve ser do tipo String e referenciar o User.id
+  // Removemos @db.ObjectId
+  authorId    String
+  
+  // Relação
+  author      User   @relation(fields: [authorId], references: [id])
+
+  @@map("media") // Mapeia para o nome da tabela
+
 }
