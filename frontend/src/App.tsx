@@ -1,14 +1,28 @@
-// frontend/src/App.tsx
-import React from 'react';
+import React from "react";
+import { Routes, Route, Link } from 'react-router-dom';
+import Login from './pages/Login';
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
 import './App.css';
 
-// Definindo o tipo das props, neste caso, o componente não tem props.
-// Usar React.FC (Function Component) é uma boa prática com TypeScript.
 const App: React.FC = () => {
   return (
     <div className="App">
-      <h1>Plataforma de Análise de Mídia</h1>
-      <p>Frontend (React + TypeScript) rodando com sucesso!</p>
+      <nav>
+        <Link to="/login">Login</Link> |
+        <Link to="/register">Registrar</Link> |
+        <Link to="/dashboard">Dashboard</Link>
+      </nav>
+
+      {/*Define as Rotas da Aplicação*/}
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+
+      {/*Rota Padrão (ex: redireciona para login) */}  
+      <Route path="/" element={<Login />} />
+      </Routes>
     </div>
   );
 };

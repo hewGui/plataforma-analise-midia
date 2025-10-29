@@ -1,8 +1,6 @@
 import { Router, Request, Response } from 'express';
 import axios, { AxiosInstance } from 'axios';
 import authMiddleware from '../middlewares/auth.middleware';
-import { release } from 'os';
-
 
 const router = Router();
 
